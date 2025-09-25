@@ -4,17 +4,29 @@ import React from "react";
 
 function ThemeBtn(){
 
-    const {ThemeMode, DarkMode, LightMode} = useTheme()
+    // const {ThemeMode, DarkMode, LightMode} = useTheme()
 
-    const onChangeBtn = (e)=>{
-        const DarkModeStatus = e.currentTarget.checked;
-        if(DarkModeStatus){
-            DarkMode()
-        } 
-        else{
-            LightMode()
-        }
+    // const onChangeBtn = (e)=>{
+    //     const DarkModeStatus = e.currentTarget.checked;
+    //     if(DarkModeStatus){
+    //         DarkMode()
+    //     } 
+    //     else{
+    //         LightMode()
+    //     }
+    // }
+
+
+    const {ThemeMode, DarkMode, LightMode} = useTheme();
+
+   const onChangeBtn = (e)=>{
+    const DarkModeStatus = e.currentTarget.checked;
+    if(DarkModeStatus){
+        DarkMode()
+    }else{
+        LightMode()
     }
+   }
 
     return (
         <label className="relative inline-flex items-center cursor-pointer">
@@ -22,6 +34,9 @@ function ThemeBtn(){
                 type="checkbox"
                 value=""
                 className="sr-only peer"
+                // onChange={onChangeBtn}
+                // checked={ThemeMode ==='dark'}
+
                 onChange={onChangeBtn}
                 checked={ThemeMode ==='dark'}
             />

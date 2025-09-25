@@ -8,24 +8,41 @@ import { useEffect } from "react";
 
 function App() {
   
-  const [ThemeMode, setThemeMode] = useState('light')
+  // const [ThemeMode, setThemeMode] = useState('light')
 
-    const LightMode =()=>{
-      console.log('clicked')
-    setThemeMode('light')
-  }
+  //   const LightMode =()=>{
+  //     console.log('clicked')
+  //   setThemeMode('light')
+  // }
 
-  const DarkMode =()=>{
-       console.log('clicked dark')
+  // const DarkMode =()=>{
+  //      console.log('clicked dark')
+  //   setThemeMode('dark')
+  // }
+  //   useEffect(()=>{
+
+  //     const html=  document.documentElement;
+  //     html.classList.remove('light', 'dark');
+  //     html.classList.add(ThemeMode)
+  //   },[ThemeMode])
+
+  const [ThemeMode, setThemeMode] = useState('light');
+
+  const DarkMode=()=>{
     setThemeMode('dark')
   }
-    useEffect(()=>{
 
-      const html=  document.documentElement;
-      html.classList.remove('light', 'dark');
-      html.classList.add(ThemeMode)
-    },[ThemeMode])
+  const LightMode = ()=>{
+    setThemeMode('lught')
+  }
 
+  useEffect(()=>{
+    const a = document.querySelector('html');
+    a.classList.remove('light', 'dark');
+    a.classList.add(ThemeMode)
+  },[ThemeMode])
+
+  
   return (
     <ThemeContextProvider value={{ThemeMode, DarkMode, LightMode}}>
    <div className="flex flex-wrap min-h-screen items-center">
