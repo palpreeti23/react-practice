@@ -13,6 +13,10 @@ function App() {
 
   }
   
+  //  const addTodo = (todo)=>{
+  //   setTodos((prev)=> [{id : Date.now(),...todo},...prev])
+  // }
+
   
   const updateTodo = (todo , id)=>{
 
@@ -30,20 +34,21 @@ function App() {
     setTodos((prev)=>(prev.map((prevTodo)=> prevTodo.id === id ? {...prevTodo, completed: !prevTodo.completed} : prevTodo)))
   }
 
-  // useEffect(()=>{
-  //   const todoItems = JSON.parse(localStorage.getItem('todos'))
+  useEffect(()=>{
+    const todoItems = JSON.parse(localStorage.getItem('todos'))
 
-  //   if(todoItems && todoItems.length > 0 ){
-  //     setTodos(todoItems)
-  //   }
+    if(todoItems && todoItems.length > 0 ){
+      setTodos(todoItems)
+    }
 
-  // },[])
+  },[])
 
-  // useEffect(()=>{
-  //   localStorage.setItem('todos', JSON.stringify('todos'))
-  // },[todos])
+  useEffect(()=>{
+    localStorage.setItem('todos', JSON.stringify(todos))
+  },[todos])
 
-
+  
+ 
   return (
     <ContextProvider value={{addTodo, updateTodo, deleteTodo, toggleTodo}}>
       <div className="bg-[#172842] min-h-screen py-8">
@@ -57,14 +62,16 @@ function App() {
                         {/*Loop and Add TodoItem here */}
                         {/* < TodoItem/> */}
 
-                        {todos.map((todo)=>{
+                        {todos.map((todo)=>(
                           <div key={todo.id}
                           className='w-full'
                           >
                             
                             < TodoItem todo={todo} />
                              </div>
-                        })}
+                        ))}
+
+
                     </div>
                 </div>
             </div>
