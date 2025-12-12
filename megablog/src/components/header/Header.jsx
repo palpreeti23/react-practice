@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import Logo from "../Logo";
+import { Logo, LogoutBtn, Container } from "../index";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -26,39 +26,43 @@ export default function Header() {
     {
       name: "all post",
       slug: "/AllPost",
-      active: !authStatus,
+      active: authStatus,
     },
     {
       name: "add post",
       slug: "/AddPost",
-      active: !authStatus,
+      active: authStatus,
     },
   ];
 
   return (
     <header className="w-full">
-      <nav className="bg-gray-300 rounded-xl">
-        <div className="w-full flex">
-          <div>
-            <Logo />
-          </div>
-          <ul className="outline-none">
-            {navItem.map((items) => (
-              <li key={items}>
-                <button onClick={() => navigate(items.slug)}>
-                  {items.name}
-                </button>
-              </li>
-            ))}
+      <Container>
+        <nav className="bg-gray-300 rounded-xl">
+          <div className="w-full flex">
+            <div>
+              <Logo />
+            </div>
+            <ul className="outline-none">
+              {navItem.map((items) =>
+                items.active ? (
+                  <li key={items.name}>
+                    <button onClick={() => navigate(items.slug)}>
+                      {items.name}
+                    </button>
+                  </li>
+                ) : null
+              )}
 
-            {authStatus && (
-              <li>
-                <LogoutBtn />
-              </li>
-            )}
-          </ul>
-        </div>
-      </nav>
+              {authStatus && (
+                <li>
+                  <LogoutBtn />
+                </li>
+              )}
+            </ul>
+          </div>
+        </nav>
+      </Container>
     </header>
   );
 }
