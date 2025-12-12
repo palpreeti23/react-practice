@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from "react";
-import authService from "../../appwrite/auth";
+import React, { useState } from "react";
+import appwriteService from "../appwrite/conf";
 import { useDispatch } from "react-redux";
-import { login as authLogin } from "../../store/authSlice";
+import { login } from "../store/authSlice";
 import { useNavigate } from "react-router-dom";
-import { Logo, Input, Button } from "../index";
+import authService from "../appwrite/auth";
 import { useForm } from "react-hook-form";
+import { Input, Button, Logo } from "./index";
 
-function Login() {
+function Signup() {
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
   const { register, submithandle } = useForm();
 
-  const login = async (data) => {
+  const create = async () => {
     try {
       setError("");
-      const session = await authService.login(data);
+      const session = await appwriteService.createAccount(userData);
       if (session) {
-        const userData = await authService.getCurrentUser();
+        const userData = await authService.login(userData);
         if (userData) {
-          dispatch(authLogin(userData));
+          dispatch(login(userData));
           navigate("/");
         }
       }
@@ -27,7 +28,6 @@ function Login() {
       throw error.message;
     }
   };
-
   return (
     <div className="bg-white border-2 w-[60%] h-auto">
       <div className="flex flex-wrap">
@@ -35,19 +35,29 @@ function Login() {
           <Logo />
         </div>
         <h2 className="text-black font-medium text-center my-1 ">
-          sign in to your account
+          signup to create your account
         </h2>
 
         <h3 className="text-gray-800 text-center font-medium mb-1">
-          Dont have an account?
+          already have an account?
           <Link to="/Signup">
-            <span className="text-gray-700 font-light text-base"> Signup</span>
+            <span className="text-gray-700 font-light text-base"> Signin</span>
           </Link>
         </h3>
         {error && (
           <p className="text-red-800 text-center font-medium">{error}</p>
         )}
-        <form onSubmit={submithandle(login())} className="w-full">
+        <form onSubmit={submithandle(create())} className="w-full">
+          <Input
+            label="Name"
+            type="name"
+            placeholder="Enter your name"
+            className="w-full py-2 px-3 border rounded-xl"
+            {...register("name", {
+              required: true,
+            })}
+          />
+
           <Input
             label="Email"
             type="email"
@@ -77,7 +87,7 @@ function Login() {
             type="submit"
             className="bg-blue-600 py-2 px-3 my-2 text-center active:bg-blue-700 hover:border hover:bg-blue-500"
           >
-            Login
+            Create Account
           </Button>
         </form>
       </div>
@@ -85,4 +95,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Signup;
