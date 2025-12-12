@@ -5,5 +5,6 @@ import Logo from "./Logo";
 import Header from "./header/Header";
 import Footer from "./footer/Footer";
 import LogoutBtn from "./header/LogoutBtn";
+import Select from "./Select";
 
-export { Container, Button, Input, Logo, Header, Footer, LogoutBtn };
+export { Container, Button, Input, Logo, Header, Footer, LogoutBtn, Select };
