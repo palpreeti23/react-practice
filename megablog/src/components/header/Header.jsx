@@ -1,14 +1,64 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
+import Logo from "../Logo";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const { authStatus } = useSelector((state) => state.auth.status);
+
+  const navItem = [
+    {
+      name: "Home",
+      slug: "/",
+      active: true,
+    },
+    {
+      name: "Login",
+      slug: "/login",
+      active: !authStatus,
+    },
+    {
+      name: "Signup",
+      slug: "/signup",
+      active: !authStatus,
+    },
+    {
+      name: "all post",
+      slug: "/AllPost",
+      active: !authStatus,
+    },
+    {
+      name: "add post",
+      slug: "/AddPost",
+      active: !authStatus,
+    },
+  ];
+
   return (
-    <div className="w-full h-auto">
-      <div className="flex bg-gray-300 rounded-lg border-2">
-        <div>LOGO</div>
-        <div>
-          <nav className=""></nav>
+    <header className="w-full">
+      <nav className="bg-gray-300 rounded-xl">
+        <div className="w-full flex">
+          <div>
+            <Logo />
+          </div>
+          <ul className="outline-none">
+            {navItem.map((items) => (
+              <li key={items}>
+                <button onClick={() => navigate(items.slug)}>
+                  {items.name}
+                </button>
+              </li>
+            ))}
+
+            {authStatus && (
+              <li>
+                <LogoutBtn />
+              </li>
+            )}
+          </ul>
         </div>
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 }
