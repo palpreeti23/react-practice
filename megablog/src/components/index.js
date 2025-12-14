@@ -9,6 +9,9 @@ import Select from "./Select";
 import Login from "./Login";
 import Signup from "./Signup";
 import RTE from "./RTE";
+import PostCard from "./PostCard";
+import PostForm from "./postForm/PostForm";
+import AuthLayout from "./AuthLayout";
 
 export {
   Container,
@@ -22,4 +25,7 @@ export {
   Login,
   Signup,
   RTE,
+  PostCard,
+  PostForm,
+  AuthLayout,
 };
