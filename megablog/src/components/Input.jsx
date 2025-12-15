@@ -5,18 +5,18 @@ import { useId } from "react";
 function Input({ label, type = "text", className = "", ...props }, ref) {
   const id = useId();
   return (
-    <div className="w-full">
+    <div className="w-full flex flex-col  items-center">
       {label && (
-        <label className="text-black mb-2 px-4" htmlFor="id">
+        <label className="text-black mb-1 " htmlFor={id}>
           {label}
         </label>
       )}
       <input
         type={type}
-        className={`w-full py-4 px-3 m-3 bg-gray-200 rounded-xl border-2 border-gray-800 ${className}`}
+        className={`w-3/4 px-3 py-2 bg-gray-200 rounded-xl border border-gray-800  mb-3 ${className}`}
         {...props}
         ref={ref}
-        id="id"
+        id={id}
       />
     </div>
   );

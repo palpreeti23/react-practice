@@ -73,7 +73,7 @@ class AppwriteService {
         queries
       );
     } catch (error) {
-      console.log("appwrite service :: grtPosts :: error", error);
+      console.log("appwrite service :: getPosts :: error", error);
       return false;
     }
   }

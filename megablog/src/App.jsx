@@ -3,7 +3,7 @@ import "./App.css";
 import { Footer, Header } from "./components";
 import { Outlet } from "react-router-dom";
 import appwriteService from "./appwrite/auth";
-import { UseDispatch, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { login, logout } from "./store/authSlice";
 
 function App() {
@@ -24,14 +24,12 @@ function App() {
 
   return (
     !loading && (
-      <div className="bg-gray-400 w-full h-screen inline-block ">
-        <div className="flex flex-wrap h-auto w-full ">
-          <Header />
-          <main>
-            <Outlet />
-          </main>
-          <Footer />
-        </div>
+      <div className="min-h-screen flex flex-col ">
+        <Header />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
       </div>
     )
   );

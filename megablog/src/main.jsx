@@ -3,9 +3,16 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { store } from "./store/store";
+import store from "./store/store";
 import { Provider } from "react-redux";
-import { AuthLayout, Login } from "./components";
+import { AuthLayout } from "./components";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import AllPosts from "./pages/AllPosts";
+import AddPosts from "./pages/AddPosts";
+import EditPost from "./pages/EditPost";
+import Post from "./pages/Post";
 
 const router = createBrowserRouter([
   {
@@ -27,8 +34,8 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: (
-          <AuthLayout authentication>
-            <Login />
+          <AuthLayout authentication={false}>
+            <Signup />
           </AuthLayout>
         ),
       },
@@ -36,6 +43,7 @@ const router = createBrowserRouter([
         path: "/all-posts",
         element: (
           <AuthLayout authentication>
+            {" "}
             <AllPosts />
           </AuthLayout>
         ),
@@ -44,6 +52,7 @@ const router = createBrowserRouter([
         path: "/add-posts",
         element: (
           <AuthLayout authentication>
+            {" "}
             <AddPosts />
           </AuthLayout>
         ),

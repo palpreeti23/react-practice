@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Container, PostCard } from "../components";
 import appwriteService from "../appwrite/conf";
+import { Link } from "react-router-dom";
 
-function home() {
+function Home() {
   const [post, setPost] = useState([]);
 
   useEffect(() => {
@@ -15,14 +16,14 @@ function home() {
 
   if (post.length === 0) {
     return (
-      <div className="w-full ">
-        <Container>
-          <div className="bg-gray-300 w-full my-3 px-4">
-            <h1 className="text-black font-bold text-3xltext-center">
-              login to read posts
+      <div className="w-full">
+        <div className=" w-full pt-15 my-5">
+          <Link to="/login">
+            <h1 className="text-black font-medium text-xl text-center hover:text-gray-700">
+              Login to read posts
             </h1>
-          </div>
-        </Container>
+          </Link>
+        </div>
       </div>
     );
   }
@@ -42,4 +43,4 @@ function home() {
   );
 }
 
-export default home;
+export default Home;

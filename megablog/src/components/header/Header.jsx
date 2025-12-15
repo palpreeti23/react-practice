@@ -5,7 +5,7 @@ import { Logo, LogoutBtn, Container } from "../index";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { authStatus } = useSelector((state) => state.auth.status);
+  const authStatus = useSelector((state) => state.auth.status);
 
   const navItem = [
     {
@@ -24,45 +24,46 @@ export default function Header() {
       active: !authStatus,
     },
     {
-      name: "all post",
-      slug: "/AllPost",
+      name: "all posts",
+      slug: "/all-posts",
       active: authStatus,
     },
     {
-      name: "add post",
-      slug: "/AddPost",
+      name: "add posts",
+      slug: "/add-posts",
       active: authStatus,
     },
   ];
 
   return (
-    <header className="w-full">
-      <Container>
-        <nav className="bg-gray-300 rounded-xl">
-          <div className="w-full flex">
-            <div>
-              <Logo />
-            </div>
-            <ul className="outline-none">
-              {navItem.map((items) =>
-                items.active ? (
-                  <li key={items.name}>
-                    <button onClick={() => navigate(items.slug)}>
-                      {items.name}
-                    </button>
-                  </li>
-                ) : null
-              )}
-
-              {authStatus && (
-                <li>
-                  <LogoutBtn />
-                </li>
-              )}
-            </ul>
+    <header className="w-full h-auto ">
+      <nav className="bg-gray-300 rounded-lg ">
+        <div className="w-full flex pr-8 ">
+          <div className="px-3 object-contain ">
+            <Logo />
           </div>
-        </nav>
-      </Container>
+          <ul className="outline-none flex ml-auto flex-wrap items-center ">
+            {navItem.map((items) =>
+              items.active ? (
+                <li key={items.name} className="px-8">
+                  <button
+                    onClick={() => navigate(items.slug)}
+                    className="inline-bock px-6 py-2 duration-200 hover:bg-blue-100 rounded-full"
+                  >
+                    {items.name}
+                  </button>
+                </li>
+              ) : null
+            )}
+
+            {authStatus && (
+              <li>
+                <LogoutBtn />
+              </li>
+            )}
+          </ul>
+        </div>
+      </nav>
     </header>
   );
 }

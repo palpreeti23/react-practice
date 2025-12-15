@@ -1,113 +1,92 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Logo } from "../index";
+import { Logo, Container } from "../index";
 
 function Footer() {
   return (
-    <footer className="bg-gray-400 w-full h-auto">
-      <Container>
-        <div className="flex flex-wrap w-full mt-3 mb-5 px-4 py-2">
-          <div className="flex flex-col">
-            <div>
-              <Logo />
+    <footer className="w-full h-auto ">
+      <div className="bg-gray-300 rounded-lg  ">
+        <div className="flex flex-wrap w-full mt-3 px-2 py-5 justify-around ">
+          <div className="flex flex-col flex-wrap">
+            <div className="text-left px-1">
+              <Logo className="h-17 w-20" />
             </div>
-            <div className="text-gray-600 font-medium mt-8 px-3">
+            <div className="text-gray-500 font-medium mt-auto mb-8 pl-1 pr-5">
               Copyright Reserved by DevUI
             </div>
           </div>
 
           <div className="flex flex-col">
-            <h3>
-              <Link to="/" className="text-gray-500 font-medium ">
+            <h3 className="pb-3 text-left">
+              <Link to="/" className="text-gray-600 font-medium ">
                 COMPANY
               </Link>
             </h3>
             <div>
-              <ul className="outline-none">
-                <li>
-                  <Link to="/" className="text-black">
-                    Features
-                  </Link>
+              <ul className="outline-none text-left text-black">
+                <li className="pb-2">
+                  <Link to="/">Features</Link>
                 </li>
-                <li>
-                  <Link to="/" className="text-black">
-                    Pricing
-                  </Link>
+                <li className="pb-2">
+                  <Link to="/">Pricing</Link>
                 </li>
-                <li>
-                  <Link to="/" className="text-black">
-                    Affiliate Program
-                  </Link>
+                <li className="pb-2">
+                  <Link to="/">Affiliate Program</Link>
                 </li>
-                <li>
-                  <Link to="/" className="text-black">
-                    Press Kit
-                  </Link>
+
+                <li className="pb-2">
+                  <Link to="/">Press Kit</Link>
                 </li>
               </ul>
             </div>
           </div>
 
           <div className="flex flex-col">
-            <h3>
-              <Link to="/" className="text-gray-500 font-medium ">
-                SUPPORT
-              </Link>
+            <h3 className="pb-3 text-left text-gray-600 font-medium ">
+              <Link to="/">SUPPORT</Link>
             </h3>
             <div>
-              <ul className="outline-none">
-                <li>
+              <ul className="outline-none my-2 text-left text-black">
+                <li className="pb-2">
                   <Link to="/" className="text-black">
                     Account
                   </Link>
                 </li>
-                <li>
-                  <Link to="/" className="text-black">
-                    Help
-                  </Link>
+                <li className="pb-2">
+                  <Link to="/">Help</Link>
                 </li>
-                <li>
-                  <Link to="/" className="text-black">
-                    Contact Us
-                  </Link>
+                <li className="pb-2">
+                  <Link to="/">Contact Us</Link>
                 </li>
-                <li>
-                  <Link to="/" className="text-black">
-                    Customer Support
-                  </Link>
+                <li className="pb-2">
+                  <Link to="/">Customer Support</Link>
                 </li>
               </ul>
             </div>
           </div>
 
           <div className="flex flex-col">
-            <h3>
-              <Link to="/" className="text-gray-500 font-medium ">
+            <h3 className="pb-3 text-left">
+              <Link to="/" className="text-gray-600 font-medium ">
                 LEGALS
               </Link>
             </h3>
             <div>
-              <ul className="outline-none">
-                <li>
-                  <Link to="/" className="text-black">
-                    Terms & Condition
-                  </Link>
+              <ul className="outline-none my-2  text-left text-black">
+                <li className="pb-2">
+                  <Link to="/">Terms & Condition</Link>
                 </li>
-                <li>
-                  <Link to="/" className="text-black">
-                    Privacy Policy
-                  </Link>
+                <li className="pb-2">
+                  <Link to="/">Privacy Policy</Link>
                 </li>
-                <li>
-                  <Link to="/" className="text-black">
-                    Licensing
-                  </Link>
+                <li className="pb-2">
+                  <Link to="/">Licensing</Link>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 }

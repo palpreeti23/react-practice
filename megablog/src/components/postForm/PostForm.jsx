@@ -7,12 +7,12 @@ import appwriteService from "../../appwrite/conf";
 import { Button, Input, RTE, Select } from "../index";
 
 function PostForm({ post }) {
-  const { register, submithandle, watch, setValue, getValues } = useForm({
+  const { register, handleSubmit, watch, setValue, getValues } = useForm({
     defaultValues: {
       title: post?.title || "",
       content: post?.content || "",
       slug: post?.slug || "",
-      status: post?.status || active,
+      status: post?.status || "active",
     },
   });
 
@@ -75,7 +75,7 @@ function PostForm({ post }) {
   };
 
   return (
-    <form onSubmit={submithandle(submit)} className="flex flex-wrap">
+    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
       <div className="w-2/3 px-2">
         <Input
           label="Title"

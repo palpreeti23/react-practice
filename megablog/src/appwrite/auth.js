@@ -9,23 +9,25 @@ class AuthService {
     this.client
       .setEndpoint(config.appwriteUrl)
       .setProject(config.appwriteProjectId);
-    this.account = new Account(this.account);
+    this.account = new Account(this.client);
   }
 
   async createAccount({ email, password, name }) {
     try {
-      const userData = await this.account.create(
+      const userAccount = await this.account.create(
         ID.unique(),
         email,
         password,
         name
       );
 
-      if (userData) {
+      if (userAccount) {
         return this.login({ email, password });
+      } else {
+        return userAccount;
       }
     } catch (error) {
-      throw error;
+      console.log("authService :: createAccount :: error", error);
     }
   }
 
@@ -33,7 +35,7 @@ class AuthService {
     try {
       return await this.account.createEmailPasswordSession(email, password);
     } catch (error) {
-      throw error;
+      console.log("authService :: login :: error", error);
     }
   }
 
@@ -41,7 +43,8 @@ class AuthService {
     try {
       return await this.account.get();
     } catch (error) {
-      throw error;
+      console.log("authService :: getCurrentUser :: error", error);
+      return null;
     }
   }
 
@@ -49,7 +52,7 @@ class AuthService {
     try {
       await this.account.deleteSessions();
     } catch (error) {
-      throw error;
+      console.log("authService :: logOut :: error", error);
     }
   }
 }
