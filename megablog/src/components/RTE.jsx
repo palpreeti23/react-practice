@@ -11,6 +11,7 @@ function RTE({ name, label, control, defaultValue = "" }) {
         control={control}
         render={({ field: onchange }) => (
           <Editor
+            apiKey="2xnm8r8h1xqceuzzcifleksvhm15m396bjb80nb9m8rxseft"
             initialValue={defaultValue}
             init={{
               height: 500,
@@ -35,9 +36,9 @@ function RTE({ name, label, control, defaultValue = "" }) {
                 "wordcount",
               ],
               toolbar:
-                "undo redo | formatselect | bold italic underline | \
-            alignleft aligncenter alignright alignjustify | \
-            bullist numlist outdent indent | link image | code",
+                "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
             onEditorChange={onchange}
           />

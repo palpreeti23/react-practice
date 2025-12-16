@@ -1,4 +1,4 @@
-import { Client, Databases, Query, Storage } from "appwrite";
+import { Client, Databases, Query, Storage, ID } from "appwrite";
 import config from "../config/config";
 
 class AppwriteService {
@@ -15,7 +15,7 @@ class AppwriteService {
     this.bucket = new Storage(this.client);
   }
 
-  async createPost({ title, content, slug, featuedImage, status, userId }) {
+  async createPost({ title, content, slug, featuredImage, status, userId }) {
     try {
       await this.databases.createDocument(
         config.appwriteDatabaseId,
@@ -24,13 +24,15 @@ class AppwriteService {
         {
           title,
           content,
-          featuedImage,
+          featuredImage,
           status,
           userId,
         }
       );
+      return true;
     } catch (error) {
       console.log("appwrite service :: createPost :: error", error);
+      return null;
     }
   }
 
@@ -96,23 +98,24 @@ class AppwriteService {
 
   async uploadFile(file) {
     try {
-      return await this.Storage.createFile(
+      return await this.bucket.createFile(
         config.appwriteBucketId,
         ID.unique(),
         file
       );
     } catch (error) {
       console.log("appwrite service :: uploadFile :: error", error);
+      return false;
     }
   }
 
-  async getFilePreview(fileId) {
-    await this.Storage.getFileView(config.appwriteBucketId, fileId);
+  getFilePreview(fileId) {
+    this.bucket.getFileView(config.appwriteBucketId, fileId);
   }
 
   async deleteFile(fileId) {
     try {
-      await this.Storage.deleteFile(config.appwriteBucketId, fileId);
+      await this.bucket.deleteFile(config.appwriteBucketId, fileId);
       return true;
     } catch (error) {
       console.log("appwrite service :: getFilePreview :: error", error);

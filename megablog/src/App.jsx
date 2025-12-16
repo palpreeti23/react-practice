@@ -7,14 +7,14 @@ import { useDispatch } from "react-redux";
 import { login, logout } from "./store/authSlice";
 
 function App() {
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   useEffect(() => {
     appwriteService
       .getCurrentUser()
-      .then((userdata) => {
-        if (userdata) {
-          dispatch(login());
+      .then((userData) => {
+        if (userData) {
+          dispatch(login(userData));
         } else {
           dispatch(logout());
         }
@@ -22,16 +22,18 @@ function App() {
       .finally(() => setLoading(false));
   }, []);
 
+  if (loading) {
+    return null; // or <Loader />
+  }
+
   return (
-    !loading && (
-      <div className="min-h-screen flex flex-col ">
-        <Header />
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <Footer />
-      </div>
-    )
+    <div className="min-h-screen flex flex-col ">
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
   );
 }
 
