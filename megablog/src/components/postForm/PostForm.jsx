@@ -122,26 +122,14 @@ function PostForm({ post }) {
       }
     } else {
       const file = await appwriteService.uploadFile(data.image[0]);
-
       if (file) {
-        // const fileId = file.$id;
-        // const featuredImage = fileId;
-        const postData = {
-          title: data.title,
-          content: data.content,
-          featuredImage: file.$id, // ✅ REQUIRED
+        const fileId = file.$id;
+        const featuredImage = fileId;
+        const dbPost = await appwriteService.createPost({
+          ...data,
+          featuredImage,
           userId: userData.$id,
-          status: "active",
-        };
-
-        console.log(postData.featuredImage);
-        console.log(postData.userId);
-        const dbPost = await appwriteService.createPost({ ...postData });
-        // const dbPost = await appwriteService.createPost({
-        //   ...data,
-        //   userId: userData.$id,
-        // });
-        console.log(dbPost);
+        });
 
         if (dbPost) {
           navigate(`/post/${dbPost.$id}`);
