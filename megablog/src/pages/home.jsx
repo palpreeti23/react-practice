@@ -7,9 +7,9 @@ function Home() {
   const [post, setPost] = useState([]);
 
   useEffect(() => {
-    appwriteService.getPosts().then((post) => {
+    appwriteService.getPosts([]).then((post) => {
       if (post) {
-        setPost(post.document);
+        setPost(post.documents);
       }
     });
   });
@@ -29,14 +29,14 @@ function Home() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full h-auto">
       <Container>
-        <div className="flex flex-wrap flex-col justify-center">
-          {post?.map((post) => {
-            <div key={post.$id}>
+        <div className="flex flex-wrap ">
+          {post?.map((post) => (
+            <div key={post.$id} className="my-1 ">
               <PostCard {...post} />
-            </div>;
-          })}
+            </div>
+          ))}
         </div>
       </Container>
     </div>

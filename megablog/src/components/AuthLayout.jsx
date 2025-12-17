@@ -20,25 +20,3 @@ function AuthLayout({ children, authentication = true }) {
 }
 
 export default AuthLayout;
-
-// function AuthLayout({ children, authentication = true }) {
-//   const [loading, setLoading] = useState(true);
-//   const navigate = useNavigate();
-//   const authStatus = useSelector((state) => state.auth.status);
-//   const userData = useSelector((state) => state.auth.userData);
-
-//   useEffect(() => {
-//     if (authStatus === null) return;
-
-//     if (authentication && !authStatus) {
-//       navigate("/login");
-//     } else if (!authentication && authStatus) {
-//       navigate("/");
-//     }
-//     setLoading(false);
-//   }, [navigate, authStatus, authentication]);
-
-//   return loading ? <p>loading...</p> : <div>{children}</div>;
-// }
-
-// export default AuthLayout;

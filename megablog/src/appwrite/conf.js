@@ -63,20 +63,20 @@ class AppwriteService {
       );
     } catch (error) {
       console.log("appwrite service :: grtPost :: error", error);
-      return false;
+      return null;
     }
   }
 
   async getPosts(queries = [Query.equal("status", "active")]) {
     try {
-      await this.databases.listDocuments(
+      return await this.databases.listDocuments(
         config.appwriteDatabaseId,
         config.appwriteCollectionId,
         queries
       );
     } catch (error) {
       console.log("appwrite service :: getPosts :: error", error);
-      return false;
+      return null;
     }
   }
 

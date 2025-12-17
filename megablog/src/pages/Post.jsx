@@ -8,15 +8,16 @@ import { Container, Button } from "../components";
 import { Link } from "react-router-dom";
 
 function Post() {
-  const [post, setPost] = useState();
+  const [post, setPost] = useState(null);
   const { slug } = useParams();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
-  const isAuthor = post && userData ? post.$id === userData.$id : null;
+  const isAuthor = post && userData ? post.userId === userData.$id : false;
 
   useEffect(() => {
     if (slug) {
       appwriteService.getPost(slug).then((post) => {
+        console.log("POST DATA:", post);
         if (post) {
           setPost(post);
         } else {
@@ -29,38 +30,47 @@ function Post() {
   }, [slug, navigate]);
 
   const deletePost = () => {
-    appwriteService.deletePost().then((posts) => {
-      if (posts) {
+    appwriteService.deletePost(post.$id).then((post) => {
+      if (post) {
         appwriteService.deleteFile(post.featuredImage);
+        navigate("/");
       }
     });
   };
 
+  // const images = post.featuredImage
+  //   ? appwriteService.getFilePreview(post.featuredImage)
+  //   : null;
+
+  // console.log(post.featuredImage);
+
+  if (!post) {
+    return <p>Loading post...</p>;
+  }
+
   return (
     <div className="w-full">
       <Container>
-        <div className="flex flex-col flex-wrap">
+        <div className="flex flex-col">
           {post && (
-            <div className="flex flex-col">
+            <div className="w-full h-auto ">
               <img
-                className="w-full h-20 rounded-xl"
+                className="w-full h-20 rounded-xl object-cover"
                 src={appwriteService.getFilePreview(post.featuredImage)}
-                alt="placeholder/png"
+                alt={post.title}
               />
             </div>
           )}
-
           <div className="w-full">
             <h2 className="text-2xl font-bold text-center">{post.title}</h2>
           </div>
-
           <div className="w-full text-black font-medium text-xl px-2 text-center">
             {parse(post.content)}
           </div>
 
           {isAuthor && (
             <div className="flex">
-              <Link to={`/EditPost/${post.$id}`}>
+              <Link to={`/edit-post/${post.$id}`}>
                 <Button className="py-1 px-3 mr-2" bgColor="bg-blue-500">
                   Edit
                 </Button>
