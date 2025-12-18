@@ -8,16 +8,15 @@ function AllPosts() {
     appwriteService.getPosts([]).then((posts) => {
       if (posts) {
         setPosts(posts.documents);
-        // console.log(posts.documents.featuredImage);
       }
     });
   }, []);
   return (
     <div className="w-full">
       <Container>
-        <div className="flex flex-wrap justify-center">
+        <div className="flex flex-wrap justify-center mt-8">
           {posts?.map((posts) => (
-            <div className="mx-2" key={posts.$id}>
+            <div className="mx-3" key={posts.$id}>
               <PostCard {...posts} />
             </div>
           ))}

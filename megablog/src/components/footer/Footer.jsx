@@ -4,7 +4,7 @@ import { Logo, Container } from "../index";
 
 function Footer() {
   return (
-    <footer className="w-full h-auto mt-8 ">
+    <footer className="w-full h-auto mt-auto pt-12 ">
       <div className="bg-gray-300 rounded-lg  ">
         <div className="flex flex-wrap w-full mt-3 px-2 py-5 justify-around ">
           <div className="flex flex-col flex-wrap">

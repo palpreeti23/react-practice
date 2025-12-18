@@ -7,94 +7,12 @@ import appwriteService from "../../appwrite/conf";
 import { Button, Input, RTE, Select } from "../index";
 
 function PostForm({ post }) {
-  // const { register, handleSubmit, watch, control, setValue, getValues } =
-  //   useForm({
-  //     defaultValues: {
-  //       title: post?.title || "",
-  //       content: post?.content || "",
-  //       slug: post?.$id || "",
-  //       status: post?.status || "active",
-  //     },
-  //   });
-
-  // const navigate = useNavigate();
-  // const userData = useSelector((state) => state.auth.userData);
-
-  // console.log(userData);
-
-  // const submit = async (data) => {
-  //   if (post) {
-  //     const file = data.image[0]
-  //       ? await appwriteService.uploadFile(data.image[0])
-  //       : null;
-  //     if (file) {
-  //       appwriteService.deleteFile(post.featuredImage);
-  //     }
-
-  //     const dbPost = await appwriteService.updatePost(post.$id, {
-  //       ...data,
-  //       featuredImage: file ? file.$id : undefined,
-  //     });
-
-  //     if (dbPost) {
-  //       navigate(`/post/${dbPost.$id}`);
-  //     }
-  //   } else {
-  //     const images = data.image[0];
-  //     if (images) {
-  //       const file = await appwriteService.uploadFile(images);
-  //       if (file) {
-  //         const fileId = file.$id;
-  //         data.featuredImage = fileId;
-
-  //         const dbPost = await appwriteService.createPost({
-  //           ...data,
-  //           userId: userData.$id,
-  //         });
-
-  //         if (dbPost) {
-  //           navigate(`/post/${dbPost.$id}`);
-  //         }
-  //       } else {
-  //         console.log("no file found in postform");
-  //       }
-  //     } else {
-  //       console.log("no image is found in postform");
-  //     }
-  //   }
-  // };
-
-  // const slugTransform = useCallback((value) => {
-  //   if (value && typeof value === "string")
-  //     return value
-  //       .trim()
-  //       .toLowerCase()
-  //       .replace(/[^a-zA-Z\d\s]+/g, "-")
-  //       .replace(/\s/g, "-");
-
-  //   return "";
-  // }, []);
-
-  // useEffect(() => {
-  //   const subscription = watch((value, { name }) => {
-  //     if (name === "title") {
-  //       setValue("slug", slugTransform(value.title), {
-  //         shouldValidate: true,
-  //       });
-  //     }
-  //   });
-
-  //   return () => {
-  //     subscription.unsubscribe();
-  //   };
-  // }, [, slugTransform, setValue]);
-
-  const { register, handleSubmit, watch, setValue, control, getValues } =
+  const { register, handleSubmit, watch, control, setValue, getValues } =
     useForm({
       defaultValues: {
         title: post?.title || "",
-        slug: post?.$id || "",
         content: post?.content || "",
+        slug: post?.$id || "",
         status: post?.status || "active",
       },
     });
@@ -107,9 +25,9 @@ function PostForm({ post }) {
       const file = data.image[0]
         ? await appwriteService.uploadFile(data.image[0])
         : null;
-
+      console.log(file);
       if (file) {
-        appwriteService.deleteFile(post.featuredImage);
+        await appwriteService.deleteFile(post.featuredImage);
       }
 
       const dbPost = await appwriteService.updatePost(post.$id, {
@@ -121,20 +39,26 @@ function PostForm({ post }) {
         navigate(`/post/${dbPost.$id}`);
       }
     } else {
-      const file = await appwriteService.uploadFile(data.image[0]);
-      if (file) {
-        const fileId = file.$id;
-        data.featuredImage = fileId;
-        const dbPost = await appwriteService.createPost({
-          ...data,
-          featuredImage,
-          userId: userData.$id,
-        });
+      const images = data.image[0];
+      if (images) {
+        const file = await appwriteService.uploadFile(images);
+        if (file) {
+          const fileId = file.$id;
+          data.featuredImage = fileId;
 
-        if (dbPost) {
-          navigate(`/post/${dbPost.$id}`);
+          const dbPost = await appwriteService.createPost({
+            ...data,
+            userId: userData.$id,
+          });
+
+          if (dbPost) {
+            navigate(`/post/${dbPost.$id}`);
+          }
+        } else {
+          console.log("no file found in postform");
         }
-        console.log(dbPost.featuredImage);
+      } else {
+        console.log("no image is found in postform");
       }
     }
   };
@@ -153,19 +77,21 @@ function PostForm({ post }) {
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === "title") {
-        setValue("slug", slugTransform(value.title), { shouldValidate: true });
+        setValue("slug", slugTransform(value.title), {
+          shouldValidate: true,
+        });
       }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [watch, slugTransform, setValue]);
+  }, [, slugTransform, setValue]);
 
   return (
     <form onSubmit={handleSubmit(submit)} className="w-full h-auto">
       <div className="flex flex-wrap">
-        <div className="w-2/3 px-2 pb-10">
+        <div className="w-2/3 px-2 pb-5">
           <Input
             label="Title"
             type="text"
@@ -223,6 +149,7 @@ function PostForm({ post }) {
           />
 
           <Button
+            type="submit"
             bgColor={
               post
                 ? "bg-green-500 hover:bg-green-700 active:bg-green-800"

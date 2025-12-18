@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import appwriteService from "../appwrite/conf";
 import { useSelector } from "react-redux";
 import parse from "html-react-parser";
-import { Container, Button } from "../components";
+import { Container, Button, PostForm } from "../components";
 import { Link } from "react-router-dom";
 
 function Post() {
@@ -17,7 +17,6 @@ function Post() {
   useEffect(() => {
     if (slug) {
       appwriteService.getPost(slug).then((post) => {
-        console.log("POST DATA:", post);
         if (post) {
           setPost(post);
         } else {
@@ -38,12 +37,6 @@ function Post() {
     });
   };
 
-  // const images = post.featuredImage
-  //   ? appwriteService.getFilePreview(post.featuredImage)
-  //   : null;
-
-  // console.log(post.featuredImage);
-
   if (!post) {
     return <p>Loading post...</p>;
   }
@@ -55,7 +48,7 @@ function Post() {
           {post && (
             <div className="w-full h-auto ">
               <img
-                className="w-full h-20 rounded-xl object-cover"
+                className="w-full h-40 rounded-xl object-contain"
                 src={appwriteService.getFilePreview(post.featuredImage)}
                 alt={post.title}
               />
@@ -69,7 +62,7 @@ function Post() {
           </div>
 
           {isAuthor && (
-            <div className="flex">
+            <div className="flex justify-center mt-2">
               <Link to={`/edit-post/${post.$id}`}>
                 <Button className="py-1 px-3 mr-2" bgColor="bg-blue-500">
                   Edit

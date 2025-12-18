@@ -23,7 +23,7 @@ function App() {
   }, []);
 
   if (loading) {
-    return null; // or <Loader />
+    return null;
   }
 
   return (

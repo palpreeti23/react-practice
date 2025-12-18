@@ -11,7 +11,7 @@ export default function PostCard({ $id, featuredImage, title }) {
       <div className="w-full">
         <div className="flex flex-col justify-items-center">
           <img
-            className="w-full h-20 object-contain rounded-lg"
+            className="w-full h-30 object-contain rounded-lg"
             src={images}
             alt="content Image"
           />

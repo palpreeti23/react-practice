@@ -110,7 +110,7 @@ class AppwriteService {
   }
 
   getFilePreview(fileId) {
-    this.bucket.getFileView(config.appwriteBucketId, fileId);
+    return this.bucket.getFileView(config.appwriteBucketId, fileId);
   }
 
   async deleteFile(fileId) {
@@ -118,7 +118,7 @@ class AppwriteService {
       await this.bucket.deleteFile(config.appwriteBucketId, fileId);
       return true;
     } catch (error) {
-      console.log("appwrite service :: getFilePreview :: error", error);
+      console.log("appwrite service :: deleteFile :: error", error);
       return false;
       //so if the catch throws any error by any chance then the return false will handle it.
     }
