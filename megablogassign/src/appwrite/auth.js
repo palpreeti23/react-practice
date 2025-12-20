@@ -1,6 +1,5 @@
 import { Client, Account, ID } from "appwrite";
 import config from "../config/config";
-import { read } from "fs";
 
 class AuthService {
   client = new Client();
@@ -28,9 +27,9 @@ class AuthService {
         return userData;
       }
 
-      return true;
+      // return true;
     } catch (error) {
-      console.loh("authservice :: createAccount :: error", error);
+      console.log("authservice :: createAccount :: error", error);
       return null;
     }
   }
@@ -39,7 +38,7 @@ class AuthService {
     try {
       return await this.account.createEmailPasswordSession(email, password);
     } catch (error) {
-      console.loh("authservice :: login :: error", error);
+      console.log("authservice :: login :: error", error);
     }
   }
 
@@ -47,16 +46,16 @@ class AuthService {
     try {
       return await this.account.get();
     } catch (error) {
-      console.loh("authservice :: getCurrentUser :: error", error);
+      console.log("authservice :: getCurrentUser :: error", error);
       return null;
     }
   }
 
   async logOut() {
     try {
-      await this.account.deleteSession();
+      return await this.account.deleteSessions();
     } catch (error) {
-      console.loh("authservice :: logOut :: error", error);
+      console.log("authservice :: logOut :: error", error);
     }
   }
 }

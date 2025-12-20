@@ -8,3 +8,5 @@ const store = configureStore({
     post: postReducer,
   },
 });
+
+export default store;

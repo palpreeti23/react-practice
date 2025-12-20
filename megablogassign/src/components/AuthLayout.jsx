@@ -8,9 +8,9 @@ function AuthLayout({ children, authentication = true }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (authentication !== authStatus) {
+    if (authentication && !authStatus) {
       navigate("/login");
-    } else if (!authentication === authStatus) {
+    } else if (!authentication && authStatus) {
       navigate("/");
     }
     setLoading(false);

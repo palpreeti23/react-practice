@@ -4,7 +4,6 @@ const initialState = {
   posts: [],
   post: null,
   error: null,
-  loading: false,
 };
 
 const postSlice = createSlice({
@@ -40,3 +39,52 @@ const postSlice = createSlice({
 export const { setPost, setPosts, addPost, updatePost, deletePost } =
   postSlice.actions;
 export default postSlice.reducer;
+
+// const initialState = {
+//   posts: [
+//     {
+//       title: "title",
+//       content: "content",
+//       slug: "/",
+//       status: "active",
+//       featuredImage: "placeholder.png",
+//       userId: "123",
+//     },
+//   ],
+// };
+
+// const postSlice = createSlice({
+//   name: "post",
+//   initialState,
+//   reducers: {
+//     addPost: (state, action) => {
+//       const post = {
+//         title: action.payload.title,
+//         content: action.payload.content,
+//         slug: action.payload.slug,
+//         status: action.payload.status,
+//         featuredImage: action.payload.featuredImage,
+//         userId: action.payload.userId,
+//       };
+//       state.posts = state.posts.push(post);
+//     },
+
+//     deletePost: (state, action) => {
+//       state.posts = state.posts.filter((post) => {
+//         post.$id !== action.payload;
+//       });
+//     },
+//     updatePost: (state, action) => {
+//       state.posts = state.posts.map((post) => {
+//         post.$id === action.payload.$id ? action.payload : post;
+//       });
+//     },
+
+//     setPost:(state, action)=>{
+//       state.posts = action.payload
+//     }
+//   },
+// });
+
+// export const { addPost, updatePost, deletePost } = postSlice.actions;
+// export default postSlice.reducer;

@@ -13,7 +13,7 @@ function Input({ label, type, className = "", ...props }, ref) {
       )}
       <input
         type={type}
-        className={`w-full py-2 px-3 bg-gray-300 border rounded-lg ${className}`}
+        className={`w-3/4 px-3 py-2 bg-gray-200 rounded-xl border border-gray-800  mb-3 ${className}`}
         {...props}
         id={id}
         ref={ref}

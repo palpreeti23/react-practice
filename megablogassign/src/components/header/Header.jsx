@@ -1,12 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Logo, LogoutBtn } from "../index";
 
 function Header() {
   const authStatus = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
 
-  const navItems = [
+  const navItem = [
     {
       name: "Home",
       slug: "/",

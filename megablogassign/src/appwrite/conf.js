@@ -1,6 +1,5 @@
 import { Client, Databases, Storage, Query } from "appwrite";
 import config from "../config/config";
-import { time } from "console";
 
 class AppwriteService {
   client = new Client();

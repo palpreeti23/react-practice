@@ -1,0 +1,163 @@
+import React, { useCallback, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
+import appwriteService from "../appwrite/conf";
+import { useDispatch, useSelector } from "react-redux";
+import { Button, Input, RTE, Select } from "./index";
+import { addPost, updatePost } from "../store/postSlice";
+
+function PostForm({ post }) {
+  const { register, handleSubmit, control, watch, setValue, getValues } =
+    useForm({
+      defaultValues: {
+        title: post?.title || "",
+        content: post?.content || "",
+        slug: post?.slug || "",
+        status: post?.status || "active",
+      },
+    });
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const userData = useSelector((state) => state.auth.userData);
+
+  const submit = async (data) => {
+    if (post) {
+      const file = data.image[0]
+        ? await appwriteService.uploadFile(data.image[0])
+        : null;
+      if (file) {
+        await appwriteService.deleteFile(post.featuredImage);
+      }
+      //  const dbPost = await appwriteService.updatePost({
+      //     //dispatch(updatePost(file))
+      //    ...data,
+      //    featuredImage: file ? file.$id : null,
+      //  });
+
+      const dbPost = await appwriteService.updatePost(post.$id, data);
+
+      if (dbPost) {
+        dispatch(updatePost(dbPost));
+        navigate(`/post/${dbPost.$id}`);
+      }
+    } else {
+      const file = data.image[0]
+        ? await appwriteService.uploadFile(data.image[0])
+        : null;
+      const fileId = file.$id;
+      data.featuredImage = fileId;
+      // const dbPost = await appwriteService.createPost({
+      //     ...data,
+      //     userId: userData? userData.$id : null
+      // })
+
+      const dbPost = await appwriteService.createPost(data);
+      if (dbPost) {
+        dispatch(addPost(dbPost));
+        navigate(`/post/${dbPost.$id}`);
+      }
+    }
+  };
+
+  const slugTransformation = useCallback((value) => {
+    if (value && typeof value === "string")
+      return value
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9]+/g, "-");
+
+    return "";
+  });
+
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === "title") {
+        setValue("slug", slugTransformation(value.title), {
+          shouldValidate: true,
+        });
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [slugTransformation, watch, setValue]);
+
+  return (
+    <form onSubmit={handleSubmit(submit)} className="w-full h-auto">
+      <div className="flex flex-wrap">
+        <div className="w-2/3 px-2 pb-5">
+          <Input
+            label="Title"
+            type="text"
+            placeholder="Enter your title"
+            className=" "
+            {...register("title", { required: true })}
+          />
+
+          <Input
+            label="Slug"
+            type="text"
+            placeholder="See your slug"
+            className=""
+            {...register("slug", { required: true })}
+            onInput={(e) => {
+              setValue("slug", slugTransform(e.currentTarget.value), {
+                shouldValidate: true,
+              });
+            }}
+          />
+          <div className=" px-8">
+            <RTE
+              label="content"
+              name="content"
+              control={control}
+              defaultValue={getValues("content")}
+            />
+          </div>
+        </div>
+
+        <div className="w-1/3 px-2">
+          <Input
+            label="image"
+            type="file"
+            accept="image/jpeg, image/jpg, imag/svg, image/png, image/gif"
+            placeholder="add your image"
+            className="my-1 w-2/3"
+            {...register("image")}
+          />
+
+          {post && (
+            <div className="w-full h-auto object-contain">
+              <img
+                src={appwriteService.getFilePreview(post.featuredImage)}
+                className="rounded-lg w-full h-30"
+                alt={post.title}
+              />
+            </div>
+          )}
+
+          <Select
+            option={["active", "inactive"]}
+            label="status"
+            className="py-1 px-3 my-1 w-2/3 rounded-xl"
+          />
+
+          <Button
+            type="submit"
+            bgColor={
+              post
+                ? "bg-green-500 hover:bg-green-700 active:bg-green-800"
+                : "bg-blue-400  hover:bg-blue-600 active:bg-blue-800"
+            }
+            className=""
+          >
+            {post ? "Update" : "Submit"}
+          </Button>
+        </div>
+      </div>
+    </form>
+  );
+}
+export default PostForm;

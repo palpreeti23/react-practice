@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import appwriteService from "../appwrite/conf";
-import { useDispatch } from "react-redux";
+import { Link } from "react-router";
 
 function PostCard({ $id, featuredImage, title }) {
   const images = featuredImage
