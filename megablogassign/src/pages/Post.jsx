@@ -1,38 +1,45 @@
-import React, { useEffect } from "react";
-import { useNavigate, useParams } from "react-router";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import appwriteService from "../appwrite/conf";
-import { useDispatch, useSelector } from "react-redux";
-import { setPost } from "../store/postSlice";
-import { Link } from "react-router";
-import { Container, Button } from "../components";
+import { useSelector } from "react-redux";
+import parse from "html-react-parser";
+import { Container, Button, PostForm } from "../components";
+import { Link } from "react-router-dom";
 
-function Post({ post }) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+function Post() {
+  const [post, setPost] = useState(null);
   const { slug } = useParams();
-  // const post = useSelector((state) => state.post);
+  const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
-  const isAuthor = post && userData ? post.$id === userData.$id : false;
+  const isAuthor = post && userData ? post.userId === userData.$id : false;
+
   useEffect(() => {
     if (slug) {
-      appwriteService.getPost().then((post) => {
+      appwriteService.getPost(slug).then((post) => {
         if (post) {
-          dispatch(setPost(post));
+          setPost(post);
+        } else {
+          navigate("/");
         }
-        navigate("/");
       });
+    } else {
+      navigate("/");
     }
-    navigate("/");
   }, [slug, navigate]);
 
   const deletePost = () => {
     appwriteService.deletePost(post.$id).then((post) => {
       if (post) {
-        dispatch(deletePost(post));
+        appwriteService.deleteFile(post.featuredImage);
+        navigate("/");
       }
-      navigate("/");
     });
   };
+
+  if (!post) {
+    return <p>Loading post...</p>;
+  }
 
   return (
     <div className="w-full">

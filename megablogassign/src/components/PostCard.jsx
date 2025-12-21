@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Link } from "react-router-dom";
 import appwriteService from "../appwrite/conf";
-import { Link } from "react-router";
 
-function PostCard({ $id, featuredImage, title }) {
+export default function PostCard({ $id, featuredImage, title }) {
   const images = featuredImage
     ? appwriteService.getFilePreview(featuredImage)
     : null;
-
   return (
     <Link to={`/post/${$id}`}>
       <div className="w-full">
@@ -22,5 +21,3 @@ function PostCard({ $id, featuredImage, title }) {
     </Link>
   );
 }
-
-export default PostCard;

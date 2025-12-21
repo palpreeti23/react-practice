@@ -9,28 +9,25 @@ class AuthService {
     this.client
       .setEndpoint(config.appwriteUrl)
       .setProject(config.appwriteProjectId);
-
     this.account = new Account(this.client);
   }
 
   async createAccount({ email, password, name }) {
     try {
-      const userData = await this.account.create(
+      const userAccount = await this.account.create(
         ID.unique(),
         email,
         password,
         name
       );
-      if (userData) {
-        return this.login(email, password);
-      } else {
-        return userData;
-      }
 
-      // return true;
+      if (userAccount) {
+        return this.login({ email, password });
+      } else {
+        return userAccount;
+      }
     } catch (error) {
-      console.log("authservice :: createAccount :: error", error);
-      return null;
+      console.log("authService :: createAccount :: error", error);
     }
   }
 
@@ -38,7 +35,7 @@ class AuthService {
     try {
       return await this.account.createEmailPasswordSession(email, password);
     } catch (error) {
-      console.log("authservice :: login :: error", error);
+      console.log("authService :: login :: error", error);
     }
   }
 
@@ -46,16 +43,16 @@ class AuthService {
     try {
       return await this.account.get();
     } catch (error) {
-      console.log("authservice :: getCurrentUser :: error", error);
+      console.log("authService :: getCurrentUser :: error", error);
       return null;
     }
   }
 
   async logOut() {
     try {
-      return await this.account.deleteSessions();
+      await this.account.deleteSessions();
     } catch (error) {
-      console.log("authservice :: logOut :: error", error);
+      console.log("authService :: logOut :: error", error);
     }
   }
 }

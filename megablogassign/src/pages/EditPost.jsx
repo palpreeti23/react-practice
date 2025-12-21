@@ -1,22 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, PostForm } from "../components";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import appwriteService from "../appwrite/conf";
-import { useNavigate, useParams } from "react-router";
-import { useDispatch } from "react-redux";
-import { setPost } from "../store/postSlice";
 
 function EditPost() {
-  const { slug } = useParams();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { slug } = useParams();
+  const [post, setPost] = useState();
 
   useEffect(() => {
     if (slug) {
       appwriteService.getPost(slug).then((post) => {
         if (post) {
-          dispatch(setPost(post));
-        } else {
-          navigate("/");
+          setPost(post);
         }
       });
     } else {
@@ -25,9 +22,11 @@ function EditPost() {
   }, [slug, navigate]);
 
   return (
-    <Container>
-      <PostForm post={post} />
-    </Container>
+    <div className="w-full">
+      <Container>
+        <PostForm post={post} />
+      </Container>
+    </div>
   );
 }
 

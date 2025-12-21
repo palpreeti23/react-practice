@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import { useDispatch } from "react-redux";
-import { Header, Footer } from "./components";
+import { Footer, Header } from "./components";
+import { Outlet } from "react-router-dom";
 import authService from "./appwrite/auth";
-import { Outlet } from "react-router";
+import { useDispatch } from "react-redux";
 import { login, logout } from "./store/storeSlice";
 
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-
   useEffect(() => {
     authService
       .getCurrentUser()

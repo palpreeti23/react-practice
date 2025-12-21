@@ -4,76 +4,81 @@ import { useNavigate } from "react-router";
 import appwriteService from "../appwrite/conf";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, RTE, Select } from "./index";
-import { addPost, updatePost } from "../store/postSlice";
+// import { addPost, updatePost } from "../store/postSlice";
 
 function PostForm({ post }) {
-  const { register, handleSubmit, control, watch, setValue, getValues } =
+  const { register, handleSubmit, watch, control, setValue, getValues } =
     useForm({
       defaultValues: {
         title: post?.title || "",
         content: post?.content || "",
-        slug: post?.slug || "",
+        slug: post?.$id || "",
         status: post?.status || "active",
       },
     });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
+  console.log(userData);
 
   const submit = async (data) => {
     if (post) {
       const file = data.image[0]
         ? await appwriteService.uploadFile(data.image[0])
         : null;
+      console.log(file);
       if (file) {
         await appwriteService.deleteFile(post.featuredImage);
       }
-      //  const dbPost = await appwriteService.updatePost({
-      //     //dispatch(updatePost(file))
-      //    ...data,
-      //    featuredImage: file ? file.$id : null,
-      //  });
 
-      const dbPost = await appwriteService.updatePost(post.$id, data);
+      const dbPost = await appwriteService.updatePost(post.$id, {
+        ...data,
+        featuredImage: file ? file.$id : undefined,
+      });
 
       if (dbPost) {
-        dispatch(updatePost(dbPost));
         navigate(`/post/${dbPost.$id}`);
       }
     } else {
-      const file = data.image[0]
-        ? await appwriteService.uploadFile(data.image[0])
-        : null;
-      const fileId = file.$id;
-      data.featuredImage = fileId;
-      // const dbPost = await appwriteService.createPost({
-      //     ...data,
-      //     userId: userData? userData.$id : null
-      // })
+      const images = data.image[0];
+      if (images) {
+        const file = await appwriteService.uploadFile(images);
+        if (file) {
+          const fileId = file.$id;
+          data.featuredImage = fileId;
 
-      const dbPost = await appwriteService.createPost(data);
-      if (dbPost) {
-        dispatch(addPost(dbPost));
-        navigate(`/post/${dbPost.$id}`);
+          const dbPost = await appwriteService.createPost({
+            ...data,
+            userId: userData ? userData.$id : null,
+          });
+
+          if (dbPost) {
+            navigate(`/post/${dbPost.$id}`);
+          }
+        } else {
+          console.log("no file found in postform");
+        }
+      } else {
+        console.log("no image is found in postform");
       }
     }
   };
 
-  const slugTransformation = useCallback((value) => {
+  const slugTransform = useCallback((value) => {
     if (value && typeof value === "string")
       return value
         .trim()
         .toLowerCase()
-        .replace(/[^a-zA-Z0-9]+/g, "-");
+        .replace(/[^a-zA-Z\d\s]+/g, "-")
+        .replace(/\s/g, "-");
 
     return "";
-  });
+  }, []);
 
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === "title") {
-        setValue("slug", slugTransformation(value.title), {
+        setValue("slug", slugTransform(value.title), {
           shouldValidate: true,
         });
       }
@@ -82,7 +87,7 @@ function PostForm({ post }) {
     return () => {
       subscription.unsubscribe();
     };
-  }, [slugTransformation, watch, setValue]);
+  }, [, slugTransform, setValue]);
 
   return (
     <form onSubmit={handleSubmit(submit)} className="w-full h-auto">
@@ -160,4 +165,5 @@ function PostForm({ post }) {
     </form>
   );
 }
+
 export default PostForm;
