@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import appwriteService from "../appwrite/conf";
 import { useDispatch, useSelector } from "react-redux";
 import parse from "html-react-parser";
-import { Container, Button, PostForm } from "../components";
+import { Container, Button } from "../components";
 import { Link } from "react-router-dom";
-import { setPost } from "../store/postSlice";
+import { setPost, deletePostSlice } from "../store/postSlice";
 
 function Post() {
   const { post } = useSelector((state) => state.post);
@@ -33,7 +33,8 @@ function Post() {
   const deletePost = () => {
     appwriteService.deletePost(post.$id).then((post) => {
       if (post) {
-        appwriteService.deleteFile(post.featuredImage);
+        // appwriteService.deleteFile(post.featuredImage);
+        dispatch(deletePostSlice(post));
         navigate("/");
       }
     });

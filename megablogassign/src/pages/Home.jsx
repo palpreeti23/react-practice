@@ -35,7 +35,7 @@ function Home() {
     <div className="w-full h-auto">
       <Container>
         <div className="flex flex-col items-start">
-          {posts.map((post) => (
+          {posts?.map((post) => (
             <div key={post.$id} className="my-2 mx-8">
               <PostCard {...post} />
             </div>

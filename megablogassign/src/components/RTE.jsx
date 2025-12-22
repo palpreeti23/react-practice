@@ -5,17 +5,17 @@ import { Editor } from "@tinymce/tinymce-react";
 function RTE({ name, label, control, defaultValue = "" }) {
   return (
     <div className="w-full h-auto">
-      {label && <label className="text-lg text-black py-2 px-3">{label}</label>}
+      <label className="text-lg text-black py-2 px-3 ">{label}</label>
       <Controller
         name={name || "content"}
         control={control}
-        render={({ field: onChange }) => (
+        render={({ field: { onChange } }) => (
           <Editor
             apiKey="2xnm8r8h1xqceuzzcifleksvhm15m396bjb80nb9m8rxseft"
             initialValue={defaultValue}
             init={{
               initialValue: defaultValue,
-              height: 400,
+              height: 500,
               menubar: true,
               plugins: [
                 "advlist",
@@ -37,12 +37,9 @@ function RTE({ name, label, control, defaultValue = "" }) {
                 "wordcount",
               ],
               toolbar:
-                "undo redo | blocks | " +
-                "bold italic underline strikethrough | forecolor backcolor | " +
-                "alignleft aligncenter alignright alignjustify | " +
-                "bullist numlist outdent indent | " +
-                "link image media table | " +
-                "removeformat code fullscreen help",
+                "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
             onEditorChange={onChange}
           />

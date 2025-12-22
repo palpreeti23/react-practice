@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import appwriteService from "../appwrite/conf";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Input, RTE, Select } from "./index";
-// import { addPost, updatePost } from "../store/postSlice";
+import { addPost, updatePost1 } from "../store/postSlice";
 
 function PostForm({ post }) {
   const { register, handleSubmit, watch, control, setValue, getValues } =
@@ -18,8 +18,9 @@ function PostForm({ post }) {
     });
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
-  console.log(userData);
+  // console.log(userData);
 
   const submit = async (data) => {
     if (!userData) {
@@ -35,12 +36,14 @@ function PostForm({ post }) {
         await appwriteService.deleteFile(post.featuredImage);
       }
 
+      console.log("UPDATE DATA:", data);
       const dbPost = await appwriteService.updatePost(post.$id, {
         ...data,
         featuredImage: file ? file.$id : undefined,
       });
 
       if (dbPost) {
+        dispatch(updatePost1(dbPost));
         navigate(`/post/${dbPost.$id}`);
       }
     } else {
@@ -57,6 +60,7 @@ function PostForm({ post }) {
           });
 
           if (dbPost) {
+            dispatch(addPost(dbPost));
             navigate(`/post/${dbPost.$id}`);
           }
         } else {

@@ -21,14 +21,14 @@ const postSlice = createSlice({
     addPost: (state, action) => {
       state.posts = state.posts.unshift(action.payload);
     },
-    updatePost: (state, action) => {
+    updatePost1: (state, action) => {
       state.post = state.post.map((post) =>
         post.$id === action.payload.$id ? action.payload : post
       );
       state.post = action.payload;
     },
-    deletePost: (state, action) => {
-      state.post = state.post.filter((post) => {
+    deletePostSlice: (state, action) => {
+      state.posts = state.posts.filter((post) => {
         post.$id !== action.payload;
       });
       state.post = null;
@@ -36,7 +36,7 @@ const postSlice = createSlice({
   },
 });
 
-export const { setPost, setPosts, addPost, updatePost, deletePost } =
+export const { setPost, setPosts, addPost, updatePost1, deletePostSlice } =
   postSlice.actions;
 export default postSlice.reducer;
 
