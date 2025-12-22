@@ -1,12 +1,14 @@
 import React from "react";
 import { Container, PostForm } from "../components";
 
-function AddPost() {
+function AddPosts() {
   return (
-    <Container>
-      <PostForm />
-    </Container>
+    <div className="w-full">
+      <Container>
+        <PostForm />
+      </Container>
+    </div>
   );
 }
 
-export default AddPost;
+export default AddPosts;

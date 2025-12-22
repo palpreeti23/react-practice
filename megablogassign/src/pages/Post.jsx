@@ -2,15 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import appwriteService from "../appwrite/conf";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import parse from "html-react-parser";
 import { Container, Button, PostForm } from "../components";
 import { Link } from "react-router-dom";
+import { setPost } from "../store/postSlice";
 
 function Post() {
-  const [post, setPost] = useState(null);
+  const { post } = useSelector((state) => state.post);
   const { slug } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userData = useSelector((state) => state.auth.userData);
   const isAuthor = post && userData ? post.userId === userData.$id : false;
 
@@ -18,7 +20,7 @@ function Post() {
     if (slug) {
       appwriteService.getPost(slug).then((post) => {
         if (post) {
-          setPost(post);
+          dispatch(setPost(post));
         } else {
           navigate("/");
         }

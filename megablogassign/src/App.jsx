@@ -15,6 +15,8 @@ function App() {
       .then((userData) => {
         if (userData) {
           dispatch(login(userData));
+
+          console.log("APP USER:", userData);
         } else {
           dispatch(logout());
         }

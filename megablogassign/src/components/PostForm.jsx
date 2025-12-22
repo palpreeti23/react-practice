@@ -22,6 +22,10 @@ function PostForm({ post }) {
   console.log(userData);
 
   const submit = async (data) => {
+    if (!userData) {
+      console.log("userdata is not defined");
+      return;
+    }
     if (post) {
       const file = data.image[0]
         ? await appwriteService.uploadFile(data.image[0])
@@ -49,7 +53,7 @@ function PostForm({ post }) {
 
           const dbPost = await appwriteService.createPost({
             ...data,
-            userId: userData ? userData.$id : null,
+            userId: userData.$id,
           });
 
           if (dbPost) {
@@ -87,7 +91,7 @@ function PostForm({ post }) {
     return () => {
       subscription.unsubscribe();
     };
-  }, [, slugTransform, setValue]);
+  }, [watch, slugTransform, setValue]);
 
   return (
     <form onSubmit={handleSubmit(submit)} className="w-full h-auto">
