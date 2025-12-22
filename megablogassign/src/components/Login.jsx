@@ -30,9 +30,8 @@ function Login() {
       setError(error.message);
     }
   };
-
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center mt-5">
       <div className="bg-gray-200 border-2 rounded-3xl w-2/5 py-4">
         <div className="flex flex-col flex-wrap items-center">
           <div className="py-3 ">

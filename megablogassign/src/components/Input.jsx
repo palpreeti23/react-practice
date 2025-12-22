@@ -1,13 +1,13 @@
-import React from "react";
-import { useId } from "react";
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 
-function Input({ label, type, className = "", ...props }, ref) {
+import { useId } from "react";
+
+function Input({ label, type = "text", className = "", ...props }, ref) {
   const id = useId();
   return (
-    <div>
+    <div className="w-full flex flex-col  items-center">
       {label && (
-        <label htmlFor={id} className="text-black px-2 font-medium">
+        <label className="text-black mb-1 " htmlFor={id}>
           {label}
         </label>
       )}
@@ -15,8 +15,8 @@ function Input({ label, type, className = "", ...props }, ref) {
         type={type}
         className={`w-3/4 px-3 py-2 bg-gray-200 rounded-xl border border-gray-800  mb-3 ${className}`}
         {...props}
-        id={id}
         ref={ref}
+        id={id}
       />
     </div>
   );
